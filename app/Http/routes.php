@@ -38,9 +38,27 @@ $router->bind('projects', function($slug){
 
 Route::get('search/{word}', 'PagesController@search');
 
-
 Route::resource('projects', 'PagesController');
 
 Route::resource('comments', 'CommentController');
+
+Route::get('usersCreate', 'UsersController@create');
+
+
+$router->bind('users', function($id){
+	
+	return \App\models\User::whereId($id)->first();
+
+});
+
+
+Route::resource('users', 'UsersController');
+
+
+
+
+
+
+
 
 

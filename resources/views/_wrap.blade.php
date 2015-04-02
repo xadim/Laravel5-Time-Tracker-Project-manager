@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Laravel</title>
+		<title>Graphite Time Tracker / Project Manager</title>
 		
 		<link href='//fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
 		<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
@@ -42,7 +42,7 @@
 	<body>
 		<div class="containerz">
 			<div class="contentz">
-				<div class="titlez">Graphite Time Track</div>
+				<div class="titlez">Graphite Time Tracker</div>
 				<div class="quotez">@yield('content')</div>
 			</div>
 		</div>

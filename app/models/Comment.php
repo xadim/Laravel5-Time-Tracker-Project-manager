@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model {
 
-    protected $fillable = array('name', 'content');
+    protected $fillable = array('user_id', 'content', 'project_id');
 
     public function project()
     {

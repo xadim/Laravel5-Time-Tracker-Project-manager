@@ -9,6 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 use App\models\Project;
 use App\models\Task;
+use App\User;
 
 class PagesController extends Controller {
 
@@ -29,7 +30,7 @@ class PagesController extends Controller {
 	{
 		//$categories = Project::get();
 		//dd($categories); //similar to die
-		$projects = $this->project->get();
+		$projects = $this->project->orderBy('id', 'desc')->get();
 		
 
 		return view('projects.projects', ['projects' => $projects, 'word' => '']);
@@ -92,12 +93,19 @@ class PagesController extends Controller {
 		
 		$toSave = 0;
 
-		$project->fill($request->input())->save();
+//		dd($request['status_task_designs_up']);
+
+		//$project->fill($request->input())->save();
+		$updateProject = $this->project
+            ->where('id', $project->id)
+            ->update(array('title' => $request['title'], 'desc' => $request['desc'], 'slug' => $request['slug'], 
+            	'unit' => $request['unit'], 'tags' => $request['tags'], 'status' => $request['status'], 
+            	'authorized_users' => $request['authorized_users'], 'user_id' => $request['project_owner']));
 
 		$task = new Task;
 		$task->project_id = $request['project_id'];
 
-		if ($request['task_designs'] != "task_designs") {
+		if ($request['task_designs'] != "task_designs" && $request['task_designs'] != null) {
 			
 			$task->task_designs = nowTimestamp ($request['task_designs']);
 			$task->status_task_designs = $request['task_designs'];
@@ -111,7 +119,7 @@ class PagesController extends Controller {
 		
 		}
 		
-		if ($request['task_prod'] != "task_prod") {
+		if ($request['task_prod'] != "task_prod" && $request['task_prod'] != "null") {
 		
 			$task->task_prod = nowTimestamp ($request['task_prod']);
 			$task->status_task_prod = $request['task_prod'];
@@ -127,7 +135,7 @@ class PagesController extends Controller {
 			
 		}
 
-		if ($request['task_dev'] != "task_dev") {
+		if ($request['task_dev'] != "task_dev" && $request['task_dev'] != "null") {
 		
 			$task->task_dev = nowTimestamp ($request['task_dev']);
 			$task->status_task_dev = $request['task_dev'];
@@ -144,9 +152,12 @@ class PagesController extends Controller {
 			$toSave++;
 
 		}
+			
 
 		if ($toSave > 0) {
+
 			$task->save();
+
 		}
 		
 
@@ -167,11 +178,20 @@ class PagesController extends Controller {
 
 	public function search($word)
 	{
+		if(filter_var($word, FILTER_VALIDATE_EMAIL)) {
+ 		
+ 			$idUser = retrieveOneUser($word)->id;
+
+		}elseif (is_numeric($word)){
+			$idUser = $word;
+		}else{
+			$idUser = '';
+		}
 
 		$projects = $this->project
 	                    ->where('tags', 'like',  '%' . $word . '%')
-	                    ->orWhere('authorized_users', 'like', '%' . $word . '%')
-	                    ->orWhere('user_id', 'like', $word)
+	                    ->orWhere('authorized_users', 'like',  '%' . $word . '%' )
+	                    ->orWhere('user_id', 'like', $idUser)
 	                    ->get();
 	                    //dd($projects);
 		return view('projects.projects', ['projects' => $projects, 'word' => $word]);

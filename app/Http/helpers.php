@@ -35,24 +35,21 @@ function retrieveProjectOwner($user_id)
 
 function progressStatus($status){
 
-	if ($status == 'Work-in-Progress'){
-		echo '<div class="progress">
-			  <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-			    
-			  </div>
-			</div>';
-	}elseif ($status == 'Work-Done'){
-		echo '<div class="progress">
-			  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-			    
-			  </div>
-			</div>';
-	}elseif ($status == 'Shipped'){
-		echo '<div class="progress">
-			  <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-			   
-			  </div>
-			</div>';
+//'Almost done' = time >= 4hours - 14000s
+//'Work-in-Progress' = time <= 4hours - 14000s
+//'Work-Done' = all the task are finished
+//Not started == 'Any task was started'
+
+	if ($status == 'Project finished'){
+		echo '<span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>';
+	}
+
+	elseif ($status > 0){
+		echo '<span class="glyphicon glyphicon-cloud blue" aria-hidden="true"></span>';
+	}
+
+	elseif ($status == 'Project not started'){
+		echo '<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>';
 	}
 
 }
@@ -60,7 +57,7 @@ function progressStatus($status){
 
 /**
  *
- * Clean string and convert it it into an array
+ * Clean string and convert it it into an clean array
  * @param $string
  *
  */
@@ -121,7 +118,7 @@ function nowTimestamp ($string){
 }
 
 Class timeTracker {
-
+	
 	function designsTimeTracker($projectID) {
 		$pauses = 0;
 		$restarts = 0;
@@ -673,11 +670,39 @@ function secondsToTime($seconds)
 
 
 
+function retrieveUsers()
+{
+		
+		$results = array();
+		
+		$queries = \App\User::orderBy('id', 'desc')->get();
+
+		//dd($queries);
+
+		foreach ($queries as $query)
+		{
+		    $results[] = [ 'id' => $query->id, 'value' => $query->email ];
+		}
+
+	return json_encode($results);
+}
 
 
+function retrieveOneUser($email){
+		
+		return $searchUsers = \App\User::whereEmail($email)->first();
 
+		
 
+}
+		
 
+function projectStatus($projectID){
+
+	return $status = \App\models\Task::whereProject_id($projectID)
+	     ->orderBy('id', 'desc')->first();
+
+}
 
 
 

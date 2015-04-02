@@ -7,7 +7,6 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">Add a New Project</div>
 				<div class="panel-body">
-					<h1><em>New Project</em></h1>
 
 					{!! Form::open(['route' => 'projects.store']) !!}
 

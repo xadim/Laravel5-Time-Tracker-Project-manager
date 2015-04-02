@@ -74,12 +74,10 @@ class CommentController extends Controller {
 	 */
 	public function update($id, Request $request)
 	{
-//		dd($request->get('content'));
-		
 
 		$comment=$this->comment;
 
-		$comment->name = $request->get('name');
+		$comment->user_id = $request->get('name');
 		$comment->content = $request->get('content');
 		$comment->project_id = $id;
 

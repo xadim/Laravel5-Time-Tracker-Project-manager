@@ -5,12 +5,12 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
-				<div class="panel-heading">Edit project/ {{ $project->title }}</div>
+				<div class="panel-heading">Edit user/ {{ $user->name }}</div>
 				<div class="panel-body">
 
-					{!! Form::model($project, ['route' => ['projects.update', $project->slug], 'method' => 'PATCH']) !!}
+					{!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'PATCH']) !!}
 					
-						@include ('projects.form')
+						@include ('users.form')
 
 					{!! Form::close() !!}
 

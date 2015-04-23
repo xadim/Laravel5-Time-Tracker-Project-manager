@@ -9,7 +9,7 @@ Class Project extends Model{
 	*
 	*/
 	protected $fillable = [
-		'title', 'desc', 'slug', 'unit', 'tags', 'status', 'user_id', 'authorized_users'
+		 'client_id', 'title', 'desc', 'slug', 'unit', 'tags', 'status', 'user_id', 'authorized_users'
 	];
 
     public function comment()
@@ -20,6 +20,11 @@ Class Project extends Model{
     public function task()
     {
     	return $this->hasMany('task');
+    }
+
+    public function phase()
+    {
+    	return $this->hasMany('phase');
     }
 
 }

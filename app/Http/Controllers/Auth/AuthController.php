@@ -32,7 +32,7 @@ class AuthController extends Controller {
 		$this->auth = $auth;
 		$this->registrar = $registrar;
 
-		$this->middleware('guest', ['except' => 'getLogout', 'except' => 'getRegister']);
+//		$this->middleware('guest', ['except' => 'getLogout', 'except' => 'getRegister']);
 	}
 
 }

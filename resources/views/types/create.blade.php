@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-default">
-				<div class="panel-heading">Register new User</div>
+				<div class="panel-heading">Register new type</div>
 				<div class="panel-body">
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
@@ -18,9 +18,9 @@
 						</div>
 					@endif
 
-					{!! Form::open(['route' => 'users.store']) !!}
+					{!! Form::open(['route' => 'types.store']) !!}
 
-						@include ('users.form')
+						@include ('types.form')
 
 				
 					{!! Form::close() !!}

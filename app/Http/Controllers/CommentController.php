@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateCommentRequest;
 
 
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 use App\models\Project;
 use App\models\Comment;
+use App\models\Task;
 
 
 class CommentController extends Controller {
@@ -18,61 +20,7 @@ class CommentController extends Controller {
 	}
 
 
-
-	public function index()
-	{
-		//
-	}
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id, Request $request)
+	public function update(CreateCommentRequest $request, $id)
 	{
 
 		$comment=$this->comment;
@@ -87,18 +35,11 @@ class CommentController extends Controller {
 
 		$slug = $project->slug;
 
-		return view('projects.show', ['project' => $project]);
-	}
+		$task = new Task;
+		$tasks = $task->whereProject_id($id)->orderBy('id', 'desc')->first();
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
+		//return view('projects.show', ['project' => $project, 'task' => $tasks]);
+		return redirect()->route('projects.show', ['slug' => $slug, 'task' => $tasks]);
 	}
 
 }

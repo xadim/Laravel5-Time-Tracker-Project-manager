@@ -13,17 +13,15 @@
 
 //Route::get('/', 'WelcomeController@index');
 
-Route::get('/', 'PagesController@index');
+Route::get('/', 'PhasesController@index');
 
 
-Route::get('home', 'PagesController@index');
+Route::get('home', 'PhasesController@index');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
-
-
 
 
 $router->bind('projects', function($slug){
@@ -36,20 +34,46 @@ $router->bind('projects', function($slug){
 
 });
 
+$router->bind('clients', function($id){ return \App\models\Client::whereId($id)->first();});
+
+$router->bind('types', function($id){ return \App\models\Type::whereId($id)->first();});
+
+$router->bind('phases', function($id){ return \App\models\Phase::whereId($id)->first();});
+
 Route::get('search/{word}', 'PagesController@search');
 
+Route::resource('clients', 'ClientsController');
+
+Route::resource('types', 'TypesController');
+
+Route::resource('phases', 'PhasesController');
+
+Route::get('phases/addTiming/{id}', 'PhasesController@timing');
+
+Route::get('searchPhase/{word}', 'PhasesController@search');
+
+Route::get('searchClientsPhases/{word}', 'PhasesController@searchcp');
+
+Route::get('searchPerType/{word}', 'PhasesController@searchPerType');
+
+Route::get('phases/updateTaskTitle/{id}', 'PhasesController@updateTaskTitle');
+
 Route::resource('projects', 'PagesController');
+
+Route::get('projects/updateProjectStatus/{arr}', 'PagesController@updateProjectStatus');
+
+Route::get('projects/sortby/{status}', 'PagesController@sortby');
+
+Route::resource('clientsProjects', 'PagesController@searchClientsProjects');
+
+Route::get('projects/singleTask/{id}', 'PagesController@updateSingleTask');
 
 Route::resource('comments', 'CommentController');
 
 Route::get('usersCreate', 'UsersController@create');
 
 
-$router->bind('users', function($id){
-	
-	return \App\models\User::whereId($id)->first();
-
-});
+$router->bind('users', function($id){ return \App\models\User::whereId($id)->first(); });
 
 
 Route::resource('users', 'UsersController');

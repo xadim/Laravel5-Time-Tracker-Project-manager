@@ -27,7 +27,7 @@ class UsersController extends Controller {
 
 	public function index()
 	{
-		$users = $this->user->orderBy('id', 'desc')->get();
+		$users = $this->user->orderBy('id', 'desc')->paginate(10);
 		
 		return view('users.users', ['users' => $users]);
 	}

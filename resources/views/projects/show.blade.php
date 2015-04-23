@@ -2,35 +2,60 @@
 
 @section('content')
 
-
-<div style="" class="col-md-8 col-md-offset-2">
+<div id="timing">
+<div style="" class="col-md-12">
 					
 	<a href="{{ url('projects/' .$project->slug. '/edit') }}">
 		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 	</a>
 	
 	<div class="pull-right">
-		{!! delete_form(['projects.destroy', $project->slug]) !!}
-	</div>
+			<a href="{{ url('projects') }}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
+		</div>
 
-					<hr>
+		<hr>
 </div>
 
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-md-12">
 			
-				@if ($project->title)
+			@if ($project->title)
 
-					<h1>{{ $project->title }}</h1>
+				<h1>{{ $project->title }}</h1>
 
-					<h4><span class="glyphicon glyphicon-time blue" aria-hidden="true"> </span> Created: {{ $project->created_at->diffForHumans() }}</h4>
-				
-					<article class="description">
-						{!! nl2br($project->desc) !!}
-					</article>
-				@endif
+				<?php
+
+					$timing = projectPhaseTracker($project->id);
+
+					if ($timing != "Task not started") {
+		            	$elapseTime = secondsToTimeSimple(toSeconds($timing));
+		            }else{
+		            	$elapseTime = "0 : 00 : 00 s";
+		            }
+
+				 ?>
+
+
+				<small>
+					<span class="glyphicon glyphicon-calendar blue" aria-hidden="true"></span> {{ $project->created_at->diffForHumans() }}
+				</small>
+
+				<small>
+					<span class="glyphicon glyphicon-time blue" aria-hidden="true"></span>
+					 @if($elapseTime != "0 : 00 : 00 s" )
+		             	Elapsed Time:  {{ $elapseTime }}
+		            @else
+		            	Tasks not started
+		            @endif
+				</small>
+
+
+				<article>
+					{!! nl2br($project->desc) !!}
+				</article>
+			@endif
 
 
 				<hr>
@@ -58,6 +83,7 @@
 							@endforeach
 						@endif
 					</div>
+
 				</div>
 
 			<hr/>
@@ -81,8 +107,9 @@
 					<div class="form-group">
 						<input type="hidden" name="name" class="form-control" type="text" value="{{ Auth::user()->id }}">
 					</div>
-					<div class="form-group">
+					<div class="form-group {{ $errors->has('content') ? 'has-error' : '' }}">
 						<textarea name="content" class="form-control" placeholder="Your message here"></textarea>
+						{!! $errors->first('content', '<span class="help-bloc">:message</span>') !!}
 					</div>
 					<input type="submit" class="btn btn-success" value="Submit">
 				{!! Form::close() !!}

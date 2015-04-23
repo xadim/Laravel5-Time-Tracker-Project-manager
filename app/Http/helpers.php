@@ -68,6 +68,14 @@ function explodeString($string){
 
 }
 
+
+
+function splitString($stringToSplit){
+
+	return $theString = explode(", ", $stringToSplit);
+
+}
+
 /**
  * Format an interval to show all existing components.
  * If the interval doesn't have a time component (years, months, etc)
@@ -104,7 +112,7 @@ function dateInterval($first_date, $second_date){
  *
  */
 
-function nowTimestamp ($string){
+function nowTimestamp($string){
 	if ($string == 'notStart') {
 		
 		return $time = '0000-00-00 00:00:00';
@@ -117,6 +125,14 @@ function nowTimestamp ($string){
 	}
 }
 
+function currentTimestamp($string){
+	$dt = new DateTime;
+	$time = $dt->format('Y-m-d H:i:s');
+	return $time;
+}
+
+
+/*
 Class timeTracker {
 	
 	function designsTimeTracker($projectID) {
@@ -164,9 +180,9 @@ Class timeTracker {
 		 if ($startTime) {
 
 				/**
-				* if the project's stask was started
+				* if the project's task was started
 				*
-				*/
+				/
 
 				$startedtime = new DateTime($startTime);
 
@@ -177,7 +193,7 @@ Class timeTracker {
 				* if the project has been restarted, calculate time between paused and restarted points again and again 
 				* startedtime = started point time + sum(pauses time)
 				*
-				*/
+				/
 
 				for ($j = 0; $j < $restarts; $j++) { 
 
@@ -196,7 +212,7 @@ Class timeTracker {
 				/**
 				* if the project has been paused, calculate time between started and paused points 
 				*
-				*/
+				/
 
 				$endTime = $pauseTime[0];
 
@@ -209,7 +225,7 @@ Class timeTracker {
 				/**
 				* if last stop before end is pause and not a restarted and the project is end or not
 				*
-				*/
+				/
 
 				if ($finalRestart) {
 					if ($finalPause > $finalRestart) {
@@ -238,7 +254,7 @@ Class timeTracker {
 				/**
 				* if the project is finished last stop will be end
 				*
-				*/
+				/
 
 				$endedtime = new DateTime($endTime);
 				return $fromStartToEnd = $startedtime->diff($endedtime);
@@ -312,7 +328,7 @@ Class timeTracker {
 				/**
 				* if the project's stask was started
 				*
-				*/
+				/
 
 				$startedtime = new DateTime($startTime);
 
@@ -323,7 +339,7 @@ Class timeTracker {
 				* if the project has been restarted, calculate time between paused and restarted points again and again 
 				* startedtime = started point time + sum(pauses time)
 				*
-				*/
+				/
 
 				for ($j = 0; $j < $restarts; $j++) { 
 
@@ -342,7 +358,7 @@ Class timeTracker {
 				/**
 				* if the project has been paused, calculate time between started and paused points 
 				*
-				*/
+				/
 
 				$endTime = $pauseTime[0];
 
@@ -355,7 +371,7 @@ Class timeTracker {
 				/**
 				* if last stop before end is pause and not a restarted and the project is end or not
 				*
-				*/
+				/
 
 				if ($finalRestart) {
 					if ($finalPause > $finalRestart) {
@@ -384,7 +400,7 @@ Class timeTracker {
 				/**
 				* if the project is finished last stop will be end
 				*
-				*/
+				/
 
 				$endedtime = new DateTime($endTime);
 				return $fromStartToEnd = $startedtime->diff($endedtime);
@@ -456,7 +472,7 @@ Class timeTracker {
 				/**
 				* if the project's stask was started
 				*
-				*/
+				/
 
 				$startedtime = new DateTime($startTime);
 
@@ -467,7 +483,7 @@ Class timeTracker {
 				* if the project has been restarted, calculate time between paused and restarted points again and again 
 				* startedtime = started point time + sum(pauses time)
 				*
-				*/
+				/
 
 				for ($j = 0; $j < $restarts; $j++) { 
 
@@ -486,7 +502,7 @@ Class timeTracker {
 				/**
 				* if the project has been paused, calculate time between started and paused points 
 				*
-				*/
+				/
 
 				$endTime = $pauseTime[0];
 
@@ -499,7 +515,7 @@ Class timeTracker {
 				/**
 				* if last stop before end is pause and not a restarted and the project is end or not
 				*
-				*/
+				/
 
 				if ($finalRestart) {
 					if ($finalPause > $finalRestart) {
@@ -528,7 +544,7 @@ Class timeTracker {
 				/**
 				* if the project is finished last stop will be end
 				*
-				*/
+				/
 
 				$endedtime = new DateTime($endTime);
 				return $fromStartToEnd = $startedtime->diff($endedtime);
@@ -550,6 +566,7 @@ Class timeTracker {
 		}
 	}
 }
+*/
 
 
 
@@ -667,7 +684,39 @@ function secondsToTime($seconds)
 }
 
 
+function secondsToTimeSimple($seconds)
+{
+    $ret = "";
 
+    /*** get the days ***/
+    $days = intval(intval($seconds) / (3600*24));
+    if($days> 0)
+    {
+        $ret .= "$days : ";
+    }
+
+    /*** get the hours ***/
+    $hours = (intval($seconds) / 3600) % 24;
+    if($hours > 0)
+    {
+        $ret .= "$hours : ";
+    }
+
+    /*** get the minutes ***/
+    $minutes = (intval($seconds) / 60) % 60;
+    if($minutes > 0)
+    {
+        $ret .= "$minutes : ";
+    }
+
+    /*** get the seconds ***/
+    $seconds = intval($seconds) % 60;
+    if ($seconds > 0) {
+        $ret .= "$seconds s";
+    }
+
+    return $ret;
+}
 
 
 function retrieveUsers()
@@ -688,6 +737,49 @@ function retrieveUsers()
 }
 
 
+function retrieveClient()
+{
+		
+		$results = array();
+		
+		$queries = \App\models\Client::orderBy('id', 'desc')->get();
+
+		//dd($queries);
+
+		foreach ($queries as $query)
+		{
+		    $results[] = [ 'id' => $query->id, 'value' => $query->name ];
+		}
+
+	return json_encode($results);
+}
+
+
+function retrieveProject()
+{
+		
+		$results = array();
+		
+		$queries = \App\models\Project::orderBy('id', 'desc')->get();
+
+		foreach ($queries as $query)
+		{
+		    $results[] = [ 'id' => $query->id, 'value' => $query->title, 'class' => $query->client_id ];
+		}
+
+	return json_encode($results);
+}
+
+
+function retrieveAllTypes()
+{
+				
+		return $queries = \App\models\Type::orderBy('id', 'asc')->get();
+
+}
+
+
+
 function retrieveOneUser($email){
 		
 		return $searchUsers = \App\User::whereEmail($email)->first();
@@ -703,6 +795,352 @@ function projectStatus($projectID){
 	     ->orderBy('id', 'desc')->first();
 
 }
+
+function clientIdentification($projectId){
+
+	 $id = \App\models\Project::whereId($projectId)
+	     ->orderBy('id', 'desc')->first();
+
+	 return $id->client_id;
+}
+
+function clientName($client){
+
+	$client = \App\models\Client::whereId($client)
+	     ->orderBy('id', 'desc')->first();
+
+	return $client->name;
+}
+
+
+function projectTitle($id){
+
+	$client = \App\models\Project::whereId($id)
+	     ->orderBy('id', 'desc')->first();
+
+	return $client->title;
+}
+
+
+
+function typeTitle($typeID){
+
+	$client = \App\models\Type::whereId($typeID)
+	     ->orderBy('id', 'desc')->first();
+
+	return $client->title;
+}
+
+
+function timingCollections($phaseid){
+
+	$phase =  \App\models\Timing::wherePhase_id($phaseid)->orderBy('id', 'desc')->first();
+	return $phase;
+}
+
+
+
+
+
+function phaseTracker($phaseID) {
+	$pauses = 0;
+	$restarts = 0;
+	$startTime = '';
+	$endTime = '';
+	$finalPause = '';
+	$finalRestart = '';
+
+	$projectTaskTime = \App\models\Timing::wherePhase_id($phaseID)->orderBy('id', 'asc')->get();
+
+	foreach ($projectTaskTime as $task) {
+
+		if ($task->status == 'start') {
+
+			$startTime = $task->tracker;
+
+		}
+	
+		if ($task->status == 'pause') {
+			
+			$pauseTime[] = $task->tracker;
+			$pauses++;
+
+			$finalPause = $task->tracker;
+		}
+
+		if ($task->status == 'restart') {
+			
+			$restartTime[] = $task->tracker;
+			$restarts++;
+
+			$finalRestart = $task->tracker;
+
+		}
+
+		if ($task->status == 'end') {
+			
+			$endTime = $task->tracker;
+		}
+	 
+	 } 
+
+	 if ($startTime) {
+
+			/**
+			* if the project's task was started
+			*
+			*/
+
+			$startedtime = new DateTime($startTime);
+
+		
+		if ($restarts) {
+
+			/**
+			* if the project has been restarted, calculate time between paused and restarted points again and again 
+			* startedtime = started point time + sum(pauses time)
+			*
+			*/
+
+			for ($j = 0; $j < $restarts; $j++) { 
+
+				$ptime = new DateTime($pauseTime[$j]);
+				$rtime = new DateTime($restartTime[$j]);
+
+				$diffPausesAndRestart[] = $ptime->diff($rtime);
+			}		
+		
+			for ($u=0; $u < $j; $u++) { 
+				
+				$startedtime->add( $diffPausesAndRestart[$u] );
+			
+			}
+		}else{
+			if ($pauses) {
+
+			/**
+			* if the project has been paused, calculate time between started and paused points 
+			*
+			*/
+
+			$endTime = $pauseTime[0];
+
+			}
+		}
+			
+
+		if ($finalPause) {
+			
+			/**
+			* if last stop before end is pause and not a restarted and the project is end or not
+			*
+			*/
+
+			if ($finalRestart) {
+				if ($finalPause > $finalRestart) {
+					if ($endTime) {
+						$ftime = new DateTime($finalPause);
+						$etime = new DateTime($endTime);
+
+						$diffPausesAndEnd = $ftime->diff($etime);
+						$pauseFinal = $diffPausesAndEnd;
+						$startedtime->add( $pauseFinal );
+					}else{
+						 
+						 $endTime = $finalPause;
+					}
+				}else{
+					if (empty($endTime)){
+						$dt = new DateTime;
+						$endTime = $dt->format('y-m-d H:i:s');
+					}
+				}
+			}
+		}
+
+		if ($endTime) {
+			
+			/**
+			* if the project is finished last stop will be end
+			*
+			*/
+
+			$endedtime = new DateTime($endTime);
+			return $fromStartToEnd = $startedtime->diff($endedtime);
+			
+			//return format_interval($fromStartToEnd);
+		}else{
+
+			$endTime = new DateTime;
+			return $fromStartToEnd = $startedtime->diff($endTime);
+
+			//return format_interval($fromStartToEnd);
+		
+		}
+	}//if no startTime project was not started
+	else{
+
+		return 'Task not started';
+	
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function projectPhaseTracker($projectID) {
+	$pauses = 0;
+	$restarts = 0;
+	$startTime = '';
+	$endTime = '';
+	$finalPause = '';
+	$finalRestart = '';
+
+	$projectTaskTime = \App\models\Timing::whereProject_id($projectID)->orderBy('id', 'asc')->get();
+
+	foreach ($projectTaskTime as $task) {
+
+		if ($task->status == 'start') {
+
+			$startTime = $task->tracker;
+
+		}
+	
+		if ($task->status == 'pause') {
+			
+			$pauseTime[] = $task->tracker;
+			$pauses++;
+
+			$finalPause = $task->tracker;
+		}
+
+		if ($task->status == 'restart') {
+			
+			$restartTime[] = $task->tracker;
+			$restarts++;
+
+			$finalRestart = $task->tracker;
+
+		}
+
+		if ($task->status == 'end') {
+			
+			$endTime = $task->tracker;
+		}
+	 
+	 } 
+
+	 if ($startTime) {
+
+			/**
+			* if the project's task was started
+			*
+			*/
+
+			$startedtime = new DateTime($startTime);
+
+		
+		if ($restarts) {
+
+			/**
+			* if the project has been restarted, calculate time between paused and restarted points again and again 
+			* startedtime = started point time + sum(pauses time)
+			*
+			*/
+
+			for ($j = 0; $j < $restarts; $j++) { 
+
+				$ptime = new DateTime($pauseTime[$j]);
+				$rtime = new DateTime($restartTime[$j]);
+
+				$diffPausesAndRestart[] = $ptime->diff($rtime);
+			}		
+		
+			for ($u=0; $u < $j; $u++) { 
+				
+				$startedtime->add( $diffPausesAndRestart[$u] );
+			
+			}
+		}else{
+			if ($pauses) {
+
+			/**
+			* if the project has been paused, calculate time between started and paused points 
+			*
+			*/
+
+			$endTime = $pauseTime[0];
+
+			}
+		}
+			
+
+		if ($finalPause) {
+			
+			/**
+			* if last stop before end is pause and not a restarted and the project is end or not
+			*
+			*/
+
+			if ($finalRestart) {
+				if ($finalPause > $finalRestart) {
+					if ($endTime) {
+						$ftime = new DateTime($finalPause);
+						$etime = new DateTime($endTime);
+
+						$diffPausesAndEnd = $ftime->diff($etime);
+						$pauseFinal = $diffPausesAndEnd;
+						$startedtime->add( $pauseFinal );
+					}else{
+						 
+						 $endTime = $finalPause;
+					}
+				}else{
+					if (empty($endTime)){
+						$dt = new DateTime;
+						$endTime = $dt->format('y-m-d H:i:s');
+					}
+				}
+			}
+		}
+
+		if ($endTime) {
+			
+			/**
+			* if the project is finished last stop will be end
+			*
+			*/
+
+			$endedtime = new DateTime($endTime);
+			return $fromStartToEnd = $startedtime->diff($endedtime);
+			
+			//return format_interval($fromStartToEnd);
+		}else{
+
+			$endTime = new DateTime;
+			return $fromStartToEnd = $startedtime->diff($endTime);
+
+			//return format_interval($fromStartToEnd);
+		
+		}
+	}//if no startTime project was not started
+	else{
+
+		return 'Task not started';
+	
+	}
+}
+
 
 
 

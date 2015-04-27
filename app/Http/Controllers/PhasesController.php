@@ -33,9 +33,9 @@ class PhasesController extends Controller {
 	{
 
 		$phases = $this->phase->orderBy('id', 'desc')->paginate(10);
-
+		
 		return view('phases.phases', ['phases' => $phases]);
-	
+		
 	}
 
 	public function create()

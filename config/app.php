@@ -26,7 +26,7 @@ return [
 	|
 	*/
 
-	'url' => 'http://localhost',
+	'url' => 'http://c3drive.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -146,7 +146,7 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
-        'Barryvdh\Debugbar\ServiceProvider',
+        //'Barryvdh\Debugbar\ServiceProvider',
         
         'Jenssegers\Date\DateServiceProvider',
 
@@ -197,7 +197,7 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
-		'Debugbar' => 'Barryvdh\Debugbar\Facade',
+		//'Debugbar' => 'Barryvdh\Debugbar\Facade',
 		'Form' => 'Illuminate\Html\FormFacade',
 
 	],

@@ -37,10 +37,11 @@
           </tr>
         </thead>
         <tbody>
+        	
         	@foreach ($phases as $phase)
 
         	<?php
-	            
+
 	            $timing = phaseTracker($phase->id);
 	            
 
@@ -59,9 +60,11 @@
 				$created = $created_at[0];
 				$updated = $updated_at[0];
 				
+
 				if ($created >= $today or $updated >= $today) {
 					$count++;
             ?>
+
             	@if( ($phase->user_id != 3) && ($phase->user_id == Auth::user()->id) )
 			          <tr class="project-table trhover">
 			          	<td>

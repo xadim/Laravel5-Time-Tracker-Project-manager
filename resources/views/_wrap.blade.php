@@ -46,6 +46,32 @@
 				  margin-top: 10px;
 				  padding-top: 4px;
 			}
+
+			.panel-heading{
+				background-color: #FCCA57 !important;
+				color: #000 !important;
+				font-size: 18px;
+				font-weight: 500;
+				line-height: 1.1;
+			}
+
+			.control-label, .checkbox{
+				color: #000 !important;
+				font-size: 18px;
+				font-weight: 500;
+				line-height: 1.1;
+			}
+
+			.btn-primary{
+				background-color: #FCCA57 !important;
+				border: 1px solid  #FCCA57 !important;
+				color: #000 !important;
+			}
+
+			.btn-link{
+				font-weight: 600;
+				color: #FCCA57 !important;
+			}
 		</style>
 	</head>
 	<body>

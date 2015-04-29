@@ -97,7 +97,7 @@
 						            @if($elapseTime != "0 : 00 : 00 s" )
 						             	{{ $elapseTime }}
 						            @else
-						            	Tasks not started
+						            	Project not started
 						            @endif
 					            	
 					            </td>
@@ -121,7 +121,7 @@
 						            @if($elapseTime != "0 : 00 : 00 s" )
 						             	{{ $elapseTime }}
 						            @else
-						            	Tasks not started
+						            	Project not started
 						            @endif
 					            	
 					            </td>

@@ -14,6 +14,7 @@
 				display: table;
 				font-weight: 100;
 				font-family: 'Lato';
+				background-color: #E2E2E2;
 			}
 
 			.containerz {
@@ -37,12 +38,22 @@
 			.quotez {
 				font-size: 24px;
 			}
+
+			.logo{
+				  background:   url(http://c3drive.com//img/graphite-logo.svg) 50% 50% / 140px 34px no-repeat;
+				  height: 40px;
+				  width: 100%;
+				  margin-top: 10px;
+				  padding-top: 4px;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="containerz">
 			<div class="contentz">
-				<div class="titlez">Graphite Time Tracker</div>
+				<div class="titlez">
+					<div class="logo"></div>
+				</div>
 				<div class="quotez">@yield('content')</div>
 			</div>
 		</div>
